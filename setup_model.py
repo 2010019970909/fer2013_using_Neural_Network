@@ -60,12 +60,12 @@ def tuto_model(num_features = 64, num_labels = 7, width=48, height=48, print_sum
 
     return model
 
-def xception(print_summary=False):
+def xception(width=48, height=48, print_summary=False):
     from keras.applications.xception import Xception, preprocess_input, decode_predictions #299*299
     from keras.layers import GlobalAveragePooling2D
     from keras.models import Model
 
-    base_model = Xception(include_top=False, weights='imagenet', input_shape=(224,224,3))  # La pouvez tester différentes architectures
+    base_model = Xception(include_top=False, weights='imagenet', input_shape=(width,height,1))  # La pouvez tester différentes architectures
 
     # create a custom top classifier
     x = base_model.output
@@ -93,7 +93,7 @@ def main(select_model=0, filename=None, print_summary=True, train=False, batch_s
     if select_model==0: # Tuto model
         model = tuto_model(num_features = 64, num_labels = 7, width=48, height=48, print_summary=print_summary)
     elif select_model==1: # Xecption
-        model=xception()
+        model=xception(width=48, height=48, print_summary=print_summary)
     elif select_model==2: # custom_model
         model=custom_model()
 
