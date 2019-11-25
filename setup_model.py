@@ -5,8 +5,8 @@ import pandas as pd
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Conv2D, MaxPooling2D, BatchNormalization
-from keras.losses import categorical_crossentropy
-from keras.optimizers import Adam
+# from keras.losses import categorical_crossentropy
+# from keras.optimizers import Adam
 from keras.regularizers import l2
 
 """
@@ -15,6 +15,7 @@ epochs = 100
 
 """
 
+# model from the tutorial: https://medium.com/themlblog/how-to-do-facial-emotion-recognition-using-a-cnn-b7bbae79cd8f
 def tuto_model(num_features = 64, num_labels = 7, width=48, height=48, print_summary=False):
     #desinging the CNN
     model = Sequential()
@@ -62,5 +63,28 @@ def tuto_model(num_features = 64, num_labels = 7, width=48, height=48, print_sum
 
     return model
 
+def ecption():
+    pass
+
+def custom_model():
+    pass
+
+def main(select_model=0, filename=None, print_summary=True):
+    if select_model==0: # Tuto model
+        if filename:
+            tuto_model(num_features = 64, num_labels = 7, width=48, height=48, print_summary=print_summary)
+        else:
+            tuto_model(num_features = 64, num_labels = 7, width=48, height=48, print_summary=print_summary)
+    elif select_model==1: # Xecption
+        if filename:
+            pass
+        else:
+            pass
+    elif select_model==2: # custom_model
+        if filename:
+            pass
+        else:
+            pass
+
 if __name__ == "__main__":
-    tuto_model(num_features = 64, num_labels = 7, width=48, height=48, print_summary=True)
+    main(select_model=3, filename=None, print_summary=True)
