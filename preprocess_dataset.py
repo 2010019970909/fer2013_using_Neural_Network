@@ -29,7 +29,7 @@ def preprocess(fdataX='./fdataX.npy', flabels='./flabels.npy'):
     np.save('modXtest', X_test)
     np.save('modytest', y_test)
     np.save('modXvalid', X_valid)
-    np.save('modyValid', y_valid)
+    np.save('modyvalid', y_valid)
 
 if __name__ == "__main__":
     preprocess()
