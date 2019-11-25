@@ -105,11 +105,11 @@ def main(select_model=0, filename=None, print_summary=True, train=False, batch_s
             metrics=['accuracy'])
 
         #training the model
-        model.fit(np.load('modXtrain.npy'), np.array('modytrain.npy'),
+        model.fit(np.load('modXtrain.npy'), np.load('modytrain.npy'),
         batch_size=batch_size,
         epochs=epochs,
         verbose=1,
-        validation_data=(np.array('modXvalid.npy'), np.array('modyvalid.npy')),
+        validation_data=(np.load('modXvalid.npy'), np.load('modyvalid.npy')),
         shuffle=True)
 
     if filename:
