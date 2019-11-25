@@ -124,4 +124,4 @@ def main(select_model=0, filename=None, print_summary=True, train=False, batch_s
 
 
 if __name__ == "__main__":
-    main(select_model=1, filename='fer', print_summary=True, train=True)
+    main(select_model=0, filename='fer', print_summary=True, train=True)
