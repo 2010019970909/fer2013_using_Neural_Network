@@ -58,33 +58,57 @@ def tuto_model(num_features = 64, num_labels = 7, width=48, height=48, print_sum
 
     model.add(Dense(num_labels, activation='softmax'))
 
+    for layer in model.layers:
+        layer.trainable = True
+
     if print_summary:
         model.summary()
 
     return model
 
-def ecption():
-    pass
+def xception(print_summary=False):
+    from keras.applications.xception import Xception, preprocess_input, decode_predictions #299*299
+    from keras.layers import GlobalAveragePooling2D
+    from keras.models import Model
+
+    base_model = Xception(include_top=False, weights='imagenet', input_shape=(224,224,3))  # La pouvez tester différentes architectures
+
+    # create a custom top classifier
+    x = base_model.output
+    x = GlobalAveragePooling2D()(x)
+    x = Dense(1024, activation='relu')(x)
+    predictions = Dense(3, activation='softmax')(x)
+    model = Model(inputs=base_model.inputs, outputs=predictions)
+    
+    for layer in model.layers:
+        layer.trainable = True
+
+    if print_summary:
+        model.summary()
+
+    return model
 
 def custom_model():
-    pass
+    model = Sequential()
+    for layer in model.layers:
+        layer.trainable = True
+    return model
 
-def main(select_model=0, filename=None, print_summary=True):
+def main(select_model=0, filename=None, print_summary=True, train=False):
     if select_model==0: # Tuto model
-        if filename:
-            tuto_model(num_features = 64, num_labels = 7, width=48, height=48, print_summary=print_summary)
-        else:
-            tuto_model(num_features = 64, num_labels = 7, width=48, height=48, print_summary=print_summary)
+        model = tuto_model(num_features = 64, num_labels = 7, width=48, height=48, print_summary=print_summary)
     elif select_model==1: # Xecption
-        if filename:
-            pass
-        else:
-            pass
+        model=xception()
     elif select_model==2: # custom_model
-        if filename:
-            pass
-        else:
-            pass
+        model=custom_model()
+
+    if train:
+        model.compile(optimizer ='sgd', loss= 'mean_squared_error', metrics=['accuracy'])
+
+    if filename:
+        model.save_weights(filename+'_weights.h5')
+        model.save_(filename+'.h5')
+
 
 if __name__ == "__main__":
-    main(select_model=3, filename=None, print_summary=True)
+    main(select_model=1, filename='model', print_summary=True, train=True)
