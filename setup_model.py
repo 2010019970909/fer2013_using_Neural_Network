@@ -107,7 +107,7 @@ def main(select_model=0, filename=None, print_summary=True, train=False):
 
     if filename:
         model.save_weights(filename+'_weights.h5')
-        model.save_(filename+'.h5')
+        model.save(filename+'.h5')
 
 
 if __name__ == "__main__":
