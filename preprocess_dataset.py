@@ -20,16 +20,18 @@ def preprocess(fdataX='./fdataX.npy', flabels='./flabels.npy'):
     """
 
     # splitting into training, validation and testing data
-    X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.1, random_state=42)
-    X_train, X_valid, y_train, y_valid = train_test_split(X_train, y_train, test_size=0.1, random_state=41)
+    # X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.1, random_state=42)
+    # X_train, X_valid, y_train, y_valid = train_test_split(X_train, y_train, test_size=0.1, random_state=41)
+    print(x)
 
     # saving the test samples to be used later
+    """
     np.save('modXtrain', X_train)
     np.save('modytrain', y_train)
     np.save('modXtest', X_test)
     np.save('modytest', y_test)
     np.save('modXvalid', X_valid)
     np.save('modyvalid', y_valid)
-
+    """
 if __name__ == "__main__":
     preprocess()
