@@ -6,6 +6,9 @@ warnings.filterwarnings("ignore")
 from sklearn import preprocessing
 from sklearn.decomposition import PCA
 from sklearn.utils import shuffle
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import Perceptron
+
 
 # Load the data and convert them to numpy files fdataX.npy and flabels.npy 
 def load_and_process(datafile='./fer2013.csv', images_key='pixels', labels_key='emotion', width=48, height=48):
@@ -71,14 +74,30 @@ def load_and_process(datafile='./fer2013.csv', images_key='pixels', labels_key='
 
     pca_test  = model_pca.transform(scaled_test_in)
 
+    # Scale the data
+    scaler = StandardScaler()  # doctest: +SKIP
+    # Don't cheat - fit only on training data
+    scaler.fit(pca_train)  # doctest: +SKIP
+    scaled_pca_train = scaler.transform(pca_train)  # doctest: +SKIP
+    # apply same transformation to test data
+    scaled_pca_valid = scaler.transform(pca_valid)  # doctest: +SKIP
+    scaled_pca_test = scaler.transform(pca_test)  # doctest: +SKIP
+
+    # Single Perceptron
+    clf = Perceptron(fit_intercept=False,
+                     max_iter=10,
+                     tol=1e-3,
+                     shuffle=False).fit(scaled_pca_train, train_out)
     print('Save the results of the PCA analysis')
     # Save the results
+    """
     np.save('modXtrain', pca_train)
     np.save('modytrain', train_out)
     np.save('modXtest', pca_test)
     np.save('modytest', valid_out)
     np.save('modXvalid', pca_valid)
     np.save('modyvalid', test_out)
+    """
 
 if __name__ == "__main__":
     load_and_process()
