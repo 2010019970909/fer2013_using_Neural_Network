@@ -93,9 +93,9 @@ def load_and_process(datafile='./fer2013.csv', images_key='pixels', labels_key='
     scaled_pca_valid = scaler.transform(pca_valid)  # doctest: +SKIP
     scaled_pca_test = scaler.transform(pca_test)  # doctest: +SKIP
 
-    CLASSES_NAME = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
+    # CLASSES_NAME = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
     # Single Perceptron
-    print('Train perceptron')
+    print('Train perceptron from PCA')
     clf = Perceptron(fit_intercept=False,
                      max_iter=1000,
                      tol=1e-3,
@@ -123,7 +123,7 @@ def load_and_process(datafile='./fer2013.csv', images_key='pixels', labels_key='
     print(conf_matrix_test) 
     
     # MLP
-    print('Train MLP')
+    print('Train MLP from PCA')
     clf = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(15,), random_state=1).fit(scaled_pca_train, train_out)
     print('End training')
 
@@ -146,6 +146,69 @@ def load_and_process(datafile='./fer2013.csv', images_key='pixels', labels_key='
     test_pred        = clf.predict(scaled_pca_test)
     conf_matrix_test = confusion_matrix(test_out, test_pred)
     print(conf_matrix_test)
+
+    print('Train perceptron from normalised pixels')
+    clf = Perceptron(fit_intercept=False,
+                     max_iter=1000,
+                     tol=1e-3,
+                     shuffle=False).fit(scaled_train_in, train_out)
+    print('End training')
+
+    # print(clf.predict(scaled_pca_train))
+    print(clf.score(scaled_train_in, train_out))
+
+    train_pred        = clf.predict(scaled_train_in)
+    conf_matrix_train = confusion_matrix(train_out, train_pred)
+    print(conf_matrix_train)
+
+    # print(clf.predict(scaled_pca_valid))
+    # print(scaled_pca_valid.shape, valid_out.shape)
+    print(clf.score(scaled_valid_in, valid_out))
+    valid_pred        = clf.predict(scaled_valid_in)
+    conf_matrix_valid = confusion_matrix(valid_out, valid_pred)
+    print(conf_matrix_valid)
+
+    # print(clf.predict(scaled_pca_test))
+    print(clf.score(scaled_test_in, test_out))
+    test_pred        = clf.predict(scaled_test_in)
+    conf_matrix_test = confusion_matrix(test_out, test_pred)
+    print(conf_matrix_test) 
+    
+    # MLP
+    print('Train MLP from normalised pixels')
+    clf = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(15,), random_state=1).fit(scaled_train_in, train_out)
+    print('End training')
+
+    # print(clf.predict(scaled_pca_train))
+    print(clf.score(scaled_train_in, train_out))
+
+    train_pred        = clf.predict(scaled_train_in)
+    conf_matrix_train = confusion_matrix(train_out, train_pred)
+    print(conf_matrix_train)
+
+    # print(clf.predict(scaled_pca_valid))
+    # print(scaled_pca_valid.shape, valid_out.shape)
+    print(clf.score(scaled_valid_in, valid_out))
+    valid_pred        = clf.predict(scaled_valid_in)
+    conf_matrix_valid = confusion_matrix(valid_out, valid_pred)
+    print(conf_matrix_valid)
+
+    # print(clf.predict(scaled_pca_test))
+    print(clf.score(scaled_test_in, test_out))
+    test_pred        = clf.predict(scaled_test_in)
+    conf_matrix_test = confusion_matrix(test_out, test_pred)
+    print(conf_matrix_test)
+
+    """
+    Conclusion:
+
+    Perceptron, PCA
+    
+    MLP, PCA
+
+    Perceptron, pixels
+    MLP, pixels
+    """
 
     """
     np.save('modXtrain', pca_train)
