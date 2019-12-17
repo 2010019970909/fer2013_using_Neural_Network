@@ -124,7 +124,7 @@ def load_and_process(datafile='./fer2013.csv', images_key='pixels', labels_key='
     
     # MLP
     print('Train MLP from PCA')
-    clf = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(15,), random_state=1).fit(scaled_pca_train, train_out)
+    clf = MLPClassifier(solver='adam', alpha=1e-5, hidden_layer_sizes=(100,), random_state=1).fit(scaled_pca_train, train_out)
     print('End training')
 
     # print(clf.predict(scaled_pca_train))
@@ -176,7 +176,7 @@ def load_and_process(datafile='./fer2013.csv', images_key='pixels', labels_key='
     
     # MLP
     print('Train MLP from normalised pixels')
-    clf = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(15,), random_state=1).fit(scaled_train_in, train_out)
+    clf = MLPClassifier(solver='adam', alpha=1e-5, hidden_layer_sizes=(100,), random_state=1).fit(scaled_train_in, train_out)
     print('End training')
 
     # print(clf.predict(scaled_pca_train))
@@ -202,21 +202,24 @@ def load_and_process(datafile='./fer2013.csv', images_key='pixels', labels_key='
     """
     Conclusion:
 
-    Perceptron, PCA
-    
-    MLP, PCA
-
-    Perceptron, pixels
-    MLP, pixels
-    """
-
-    """
-    np.save('modXtrain', pca_train)
-    np.save('modytrain', train_out)
-    np.save('modXtest', pca_test)
-    np.save('modytest', valid_out)
-    np.save('modXvalid', pca_valid)
-    np.save('modyvalid', test_out)
+    Perceptron, PCA (accuracy of around 20%) was less efficient than MLP, PCA
+    (accuracy of around 40%) but they both worked better than Perceptron, pixels
+    (accuracy of around 20%) and MLP, pixels (accuracy of around 10%).
+    Also, in the confusion matrix we can see that the emotion 1 (disgust)
+    is the most difficult to classify (in any case).
+    With 1000 hidden layers (against the 15 of before) and the adam solver
+    (against the 'lbfgs') the NNet gets overfitted but we slightly improve
+    the performances with the normalised pixels.
+    The perceptron works better with the pixels with an accuracy of around 30%
+    against 20% with the PCA. For the 1000 hidden layers MLP, PCA the accuracy is
+    around 63% for the training and around 40% for the test (validation and test set).
+    For the 1000 hidden layers MLP, pixels the accuracy is
+    around 61% for the training and around 35% for the test (validation and test set).
+    The state-of-the-art for the image classifier is an ImageNet network
+    (https://paperswithcode.com/sota/image-classification-on-imagenet) which can reach
+    above 70% accuracy values. Also the usage of CNN should improve the accuracy of
+    the neural network, as implemented in the following article:
+    https://medium.com/themlblog/how-to-do-facial-emotion-recognition-using-a-cnn-b7bbae79cd8f
     """
 
 if __name__ == "__main__":
