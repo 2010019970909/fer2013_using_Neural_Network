@@ -25,13 +25,12 @@ def preprocess(fdataX='./fdataX.npy', flabels='./flabels.npy'):
     print(x)
 
     # saving the test samples to be used later
-    """
     np.save('modXtrain', X_train)
     np.save('modytrain', y_train)
     np.save('modXtest', X_test)
     np.save('modytest', y_test)
     np.save('modXvalid', X_valid)
     np.save('modyvalid', y_valid)
-    """
+
 if __name__ == "__main__":
     preprocess()
